@@ -75,5 +75,5 @@ async def week(ctx, *, msg):
 async def on_ready():
     await shion.change_presence(activity=discord.Game('Sword Art Online'))
     print(">>Bot is online<<")
-shion.run("Nzg3MzQ1NDk0NDA1NTQ2MDE0.X9Tmog.fT2AHGbMqXgnZMoblJWM3-mOChQ")
+shion.run(TOKEN)
 #------------------------------------------------------------
