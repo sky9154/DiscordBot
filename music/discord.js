@@ -1,12 +1,13 @@
+//匯入函式庫
 const { Client } = require('discord.js');
 const ytdl = require('ytdl-core');
 const { token } = require('./token.json');
 const { prefix } = require('./config.json');
 const client = new Client();
 
+
 // 建立一個類別來管理 Property 及 Method
 class Music {
-
     constructor() {
         this.isPlaying = {};
         this.queue = {};
@@ -14,25 +15,16 @@ class Music {
         this.dispatcher = {};
     }
 
-    async join(msg) {
-
-        // Bot 加入語音頻道
-        this.connection[msg.guild.id] = await msg.member.voice.channel.join();
-
-    }
-
+    async join(msg) {this.connection[msg.guild.id] = await msg.member.voice.channel.join();}// Bot 加入語音頻道
     async play(msg) {
-
         // 語音群的 ID
         const guildID = msg.guild.id;
-
         // 如果 Bot 還沒加入該語音群的語音頻道
         if (!this.connection[guildID]) {
             msg.channel.send('請先加入頻道');
             return;
         }
-
-        // 處理字串，將 !!play 字串拿掉，只留下 YouTube 網址
+        // 處理字串，將 .play 字串拿掉，只留下 YouTube 網址
         const musicURL = msg.content.replace(`${prefix}play`, '').trim();
 
         try {
@@ -53,7 +45,7 @@ class Music {
 
             // 如果目前正在播放歌曲就加入隊列，反之則播放歌曲
             if (this.isPlaying[guildID]) {
-                msg.channel.send(`歌曲加入隊列：${info.title}`);
+                msg.channel.send(`歌曲加入歌單：${info.title}`);
             } else {
                 this.isPlaying[guildID] = true;
                 this.playMusic(msg, guildID, this.queue[guildID][0]);
@@ -106,13 +98,13 @@ class Music {
 
     }
 
-    pause(msg) {
+    stop(msg) {
 
         if (this.dispatcher[msg.guild.id]) {
             msg.channel.send('暫停播放');
 
             // 暫停播放
-            this.dispatcher[msg.guild.id].pause();
+            this.dispatcher[msg.guild.id].stop();
         }
 
     }
@@ -128,7 +120,7 @@ class Music {
 
     }
 
-    nowQueue(msg) {
+    list(msg) {
 
         // 如果隊列中有歌曲就顯示
         if (this.queue[msg.guild.id] && this.queue[msg.guild.id].length > 0) {
@@ -136,7 +128,7 @@ class Music {
             const queueString = this.queue[msg.guild.id].map((item, index) => `[${index+1}] ${item.name}`).join();
             msg.channel.send(queueString);
         } else {
-            msg.channel.send('目前隊列中沒有歌曲');
+            msg.channel.send('目前歌單中沒有歌曲');
         }
 
     }
@@ -179,40 +171,12 @@ client.on('message', async (msg) => {
         }
     }
 
-    // !!resume
-    if (msg.content === `${prefix}resume`) {
-
-        // 恢復音樂
-        music.resume(msg);
-    }
-
-    // !!pause
-    if (msg.content === `${prefix}pause`) {
-
-        // 暫停音樂
-        music.pause(msg);
-    }
-
-    // !!skip
-    if (msg.content === `${prefix}skip`) {
-
-        // 跳過音樂
-        music.skip(msg);
-    }
-
-    // !!queue
-    if (msg.content === `${prefix}queue`) {
-
-        // 查看隊列
-        music.nowQueue(msg);
-    }
-
-    // !!leave
-    if (msg.content === `${prefix}leave`) {
-
-        // 機器人離開頻道
-        music.leave(msg);
-    }
+    
+    if (msg.content === `${prefix}resume`) {music.resume(msg);}          // 恢復音樂-resume
+    if (msg.content === `${prefix}stop`) {music.stop(msg);}                  // 暫停音樂-stop
+    if (msg.content === `${prefix}skip`) {music.skip(msg);}                   // 跳過音樂-skip
+    if (msg.content === `${prefix}list`) {music.list(msg);}                      // 查看隊列-list
+    if (msg.content === `${prefix}滾`) {music.leave(msg);}                    // 機器人滾蛋-滾
 });
 
 // 連上線時的事件
