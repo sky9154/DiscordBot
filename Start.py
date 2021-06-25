@@ -4,7 +4,7 @@ from discord.ext import commands,tasks
 #-----------------------Main-------------------------------
 import os
 os.system('cls')
-shion = commands.Bot(command_prefix='shion ')       #指令前綴
+kirito = commands.Bot(command_prefix='kirito ')       #指令前綴
 os.chdir(r'D:/雜物/程式設計/Python/discord bot')     #固定檔案位置 
 #-----------------------Subroutine--------------------------
 import random   #Goplay 隨機數
@@ -13,23 +13,23 @@ import Package.Manga    #漫畫下載器
 import Package.md   #日期查詢
 import Package.Top  #熱門關鍵字
 #-----------------------command----------------------------
-@shion.command()    #停止機器人
+@kirito.command()    #停止機器人
 async def stop(ctx):
     exit()
 
 
-@shion.command()    #重複對話
+@kirito.command()    #重複對話
 async def 說(ctx, *, msg):
     await ctx.message.delete()
     await ctx.send(msg)
 
 
-@shion.command()    #刪除訊息
+@kirito.command()    #刪除訊息
 async def delete(ctx, num: int):
     await ctx.channel.purge(limit=num+1)
 
 
-@shion.command()    #升天電梯及電鰻
+@kirito.command()    #升天電梯及電鰻
 async def goplay(ctx):
     num=random.randint(1,2)
     if(num%2==0):
@@ -38,7 +38,7 @@ async def goplay(ctx):
         await ctx.send("電鰻")
 
 
-@shion.command()    #QRcode產生器
+@kirito.command()    #QRcode產生器
 async def QRcode(ctx, *, msg):
     str=msg
     alist = str.split()
@@ -51,7 +51,7 @@ async def QRcode(ctx, *, msg):
     await ctx.send(file=pic)
 
 
-@shion.command()    #漫畫下載器
+@kirito.command()    #漫畫下載器
 async def 號碼(ctx,msg):
     Package.Manga.num(msg)
     os.system("cls")
@@ -61,7 +61,7 @@ async def 號碼(ctx,msg):
     await ctx.send(file=pic)
     print('>>Bot is online<<')
 
-@shion.command()    #查詢日期
+@kirito.command()    #查詢日期
 async def week(ctx, *, msg):
     int=msg
     alist = int.split()
@@ -70,15 +70,15 @@ async def week(ctx, *, msg):
     f=Package.md.week(a,b)
     await ctx.send(f)
 
-@shion.command()    #熱門話題
+@kirito.command()    #熱門話題
 async def fire(ctx,num: int):
     top=Package.Top.Top(num)
     await ctx.send(top)
 
 #-----------------------Run---------------------------------
-@shion.event
+@kirito.event
 async def on_ready():
-    await shion.change_presence(activity=discord.Game('Sword Art Online'))
+    await kirito.change_presence(activity=discord.Game('Sword Art Online'))
     print(">>Bot is online<<")
-shion.run("")
+kirito.run("")
 #------------------------------------------------------------
