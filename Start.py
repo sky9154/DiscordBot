@@ -1,17 +1,18 @@
-#-----------------------Discord Bot--------------------------
+#-----------------------DiscordBot--------------------------
 import discord
-from discord.ext import commands
-#-----------------------Main---------------------------------
+from discord.ext import commands,tasks
+#-----------------------Main-------------------------------
 import os
 os.system('cls')
 shion = commands.Bot(command_prefix='shion ')       #指令前綴
 os.chdir(r'D:/雜物/程式設計/Python/discord bot')     #固定檔案位置 
-#-----------------------Subroutine---------------------------
+#-----------------------Subroutine--------------------------
 import random   #Goplay 隨機數
 import Package.Build    #QRcode產生器
 import Package.Manga    #漫畫下載器
 import Package.md   #日期查詢
-#-----------------------command------------------------------
+import Package.Top  #熱門關鍵字
+#-----------------------command----------------------------
 @shion.command()    #停止機器人
 async def stop(ctx):
     exit()
@@ -69,11 +70,15 @@ async def week(ctx, *, msg):
     f=Package.md.week(a,b)
     await ctx.send(f)
 
+@shion.command()    #熱門話題
+async def fire(ctx,num: int):
+    top=Package.Top.Top(num)
+    await ctx.send(top)
 
-#-----------------------Run----------------------------------
+#-----------------------Run---------------------------------
 @shion.event
 async def on_ready():
     await shion.change_presence(activity=discord.Game('Sword Art Online'))
     print(">>Bot is online<<")
-shion.run("Nzg3MzQ1NDk0NDA1NTQ2MDE0.X9Tmog.fT2AHGbMqXgnZMoblJWM3-mOChQ")
+shion.run("")
 #------------------------------------------------------------
