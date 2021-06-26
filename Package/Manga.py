@@ -44,7 +44,7 @@ def num(num):
                 else:
                     print("輸入錯誤")
 
-            if self.name == "?":
+            if self.name == "隨機":
                 self.random()
             if self.name == "c8763":
                 self.sao()
@@ -55,9 +55,6 @@ def num(num):
             }
             for i in range(1, 2):
                 url = self.origin + str(i)
-    # 新增資料夾
-                nowpath = os.path.abspath('./demo')
-
                 try:
                     req = ur.Request(url=url, headers=headers)
                     result = ur.urlopen(req).read().decode('utf-8')
@@ -66,14 +63,10 @@ def num(num):
                     print("下載完成")
                     break
                 else:
-                    if not os.path.isdir(nowpath):
-                        print("新增資料夾："+self.name)
-                        os.mkdir(nowpath)
-                    html = bs(result)
+                    html = bs(result,"lxml")
                     img = html.select('section#image-container img')[0]
                     imgurl = img.get('src')
-                    ur.urlretrieve(imgurl, os.path.join(
-                        nowpath,'MangaIMG.jpg'), reporthook=None, data=None)
+                    return(imgurl,self.name)
 
         def start(self):
             self.setlink()
@@ -83,8 +76,11 @@ def num(num):
                     break
                 else:
                     self.setlink()
-
-            self.setsail()
+            
+            a,b=self.setsail()
+            return(a,b)
 
     nh = nhview()
-    nh.start()
+    a,b=nh.start()
+
+    return(a,b)
