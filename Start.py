@@ -9,7 +9,7 @@ os.chdir(r'D:/雜物/程式設計/Python/discord bot')     #固定檔案位置
 #-----------------------Subroutine--------------------------
 import random   #Goplay 隨機數
 import Package.Build    #QRcode產生器
-import Package.Manga    #漫畫下載器
+import Package.Manga    #漫畫搜尋器
 import Package.md   #日期查詢
 import Package.Top  #熱門關鍵字
 #-----------------------command----------------------------
@@ -51,15 +51,20 @@ async def QRcode(ctx, *, msg):
     await ctx.send(file=pic)
 
 
-@kirito.command()    #漫畫下載器
-async def 號碼(ctx,msg):
-    Package.Manga.num(msg)
+@kirito.command()    #漫畫搜尋器
+async def 漫畫(ctx,msg):
+    img,name=Package.Manga.num(msg)
     os.system("cls")
-    pic = discord.File('./demo/MangaIMG.jpg')
     await ctx.message.delete()
-    await ctx.send("```\n目前是"+msg+"的封面\n```")
-    await ctx.send(file=pic)
+    embed=discord.Embed(
+        title="目前為"+name+"的封面",
+        url="https://nhentai.net/g/"+name+"/1/",
+        color=discord.Color.blue())
+    embed.set_author(name="漫畫搜尋器", url="https://nhentai.net", icon_url="https://i.imgur.com/IaqcZtR.png")
+    embed.set_image(url=img)
+    await ctx.send(embed=embed)
     print('>>Bot is online<<')
+
 
 @kirito.command()    #查詢日期
 async def week(ctx, *, msg):
@@ -74,6 +79,7 @@ async def week(ctx, *, msg):
 async def fire(ctx,num: int):
     top=Package.Top.Top(num)
     await ctx.send(top)
+
 
 #-----------------------Run---------------------------------
 @kirito.event
