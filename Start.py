@@ -10,7 +10,6 @@ os.chdir(r'D:/雜物/程式設計/Python/discord bot')     #固定檔案位置
 import random   #Goplay 隨機數
 import Package.Build    #QRcode產生器
 import Package.Manga    #漫畫搜尋器
-import Package.md   #日期查詢
 import Package.Top  #熱門關鍵字
 #-----------------------command----------------------------
 @kirito.command()    #停止機器人
@@ -65,15 +64,6 @@ async def 漫畫(ctx,msg):
     await ctx.send(embed=embed)
     print('>>Bot is online<<')
 
-
-@kirito.command()    #查詢日期
-async def week(ctx, *, msg):
-    int=msg
-    alist = int.split()
-    a=alist[0]
-    b=alist[1]
-    f=Package.md.week(a,b)
-    await ctx.send(f)
 
 @kirito.command()    #熱門話題
 async def fire(ctx,num: int):
