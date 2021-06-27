@@ -75,7 +75,7 @@ def num(num):
                 if self.checklink() == True:
                     break
                 else:
-                    self.setlink()
+                    return("https://i.imgur.com/diIPW3p.gif","null")
             
             a,b=self.setsail()
             return(a,b)
