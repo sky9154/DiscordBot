@@ -26,14 +26,19 @@ def num(num):
             self.origin = "https://nhentai.net/g/" + self.name + "/"
             resp = requests.get(self.origin, headers=headers)
             if resp.status_code == 200:
+                resp = requests.get(self.origin)
+                title = bs(resp.text, 'html.parser').find('h2', class_='title').text
+                page= bs(resp.text, 'html.parser').find('a', class_='tag').text
+                print(page)
                 print("號碼：" + self.name)
                 print("連線成功")
-                return True
+                return True,title
             else:
                 print("號碼：" + self.name)
                 print("連線代碼：" + str(resp.status_code))
                 print("連線錯誤，請重新輸入")
-                return False
+                title='null'
+                return False,title
     # 輸入號碼
 
         def setlink(self):
@@ -72,15 +77,15 @@ def num(num):
             self.setlink()
 
             while True:
-                if self.checklink() == True:
+                check,title=self.checklink()
+                if check == True:
                     break
                 else:
-                    return("https://i.imgur.com/diIPW3p.gif","null")
-            
+                    return("https://i.imgur.com/diIPW3p.gif","null",'null')
+            print(title)
             a,b=self.setsail()
-            return(a,b)
+            return(a,b,title)
 
     nh = nhview()
-    a,b=nh.start()
-
-    return(a,b)
+    a,b,title=nh.start()
+    return(a,b,title)

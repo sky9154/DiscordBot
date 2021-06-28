@@ -52,13 +52,14 @@ async def QRcode(ctx, *, msg):
 
 @kirito.command()    #漫畫搜尋器
 async def 漫畫(ctx,msg):
-    img,name=Package.Manga.num(msg)
+    img,name,title=Package.Manga.num(msg)
     os.system("cls")
     await ctx.message.delete()
     embed=discord.Embed(
-        title="目前為"+name+"的封面",
+        title=title,
         url="https://nhentai.net/g/"+name+"/1/",
-        color=discord.Color.blue())
+        color=discord.Color.blue(),
+        description="編號:"+name)
     embed.set_author(name="漫畫搜尋器", url="https://nhentai.net", icon_url="https://i.imgur.com/IaqcZtR.png")
     embed.set_image(url=img)
     await ctx.send(embed=embed)
