@@ -22,17 +22,15 @@ def Top(number):
         json_str = response.text[5:] #刪去雜訊
         j_dic = json.loads(json_str) #將str轉成dict
 
-        #分析json檔
-        #trendingSearchesDays > 搜尋日期。[0]為今天，[1]為昨天
-        #trendingSearches > 關鍵字。
+
         topics = j_dic['default']['trendingSearchesDays'][0]['trendingSearches']
-        data = ''
+        data = '>>> '
         for i, topic in enumerate(topics):
             if i < number:
-                data += '第%s名關鍵字: '%(n) + topic['title']['query'] + '\n'
-                data += '搜索量: ' + topic['formattedTraffic'] + '\n'
-                data += '文章:' + topic['articles'][0]['title'] + '\n'
-                data += '連結:' + topic['articles'][0]['url'] + '\n'
-                data += '-------------------------\n'
+                data += '**第%s名關鍵字: **'%(n) + topic['title']['query'] + '\n'
+                data += '**搜索量: **' + topic['formattedTraffic'] + '\n'
+                data += '**文章: **' + topic['articles'][0]['title'] + '\n'
+                data += '**連結: **' + topic['articles'][0]['url'] + '\n'
+                data += '----------------------------------------\n'
                 n+=1
         return(data)
