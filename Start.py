@@ -39,16 +39,22 @@ async def goplay(ctx):
 
 @kirito.command()    #QRcode產生器
 async def QRcode(ctx, *, msg):
+    await ctx.message.delete()
     str=msg
     alist = str.split()
     a=alist[0]
     b=alist[1]
     Package.Build.QRcode(a,b)
-    await ctx.message.delete()
-    pic = discord.File('./demo/QRcode.png')
-    await ctx.send("```\nQRcode的網址為:"+b+"\n```")
-    await ctx.send(file=pic)
-
+    pic = discord.File("./demo/QRcode.png", filename="QRcode.png")
+    embed=discord.Embed(
+        title="**網址**: "+b,
+        url=a,
+        color=discord.Color.blue())
+    embed.set_author(name="QRcode產生器", icon_url="https://i.imgur.com/diIPW3p.gif")
+    embed.set_image(url="attachment://QRcode.png")
+    await ctx.send(embed=embed,file=pic)
+    os.system("cls")
+    print('>>Bot is online<<')
 
 @kirito.command()    #漫畫搜尋器
 async def 漫畫(ctx,msg):
