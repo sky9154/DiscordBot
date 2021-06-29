@@ -5,18 +5,29 @@ from discord.ext import commands,tasks
 import os
 os.system('cls')
 kirito = commands.Bot(command_prefix='kirito ')       #指令前綴
+kirito.remove_command('help')                                     #刪除help指令
 os.chdir(r'D:/雜物/程式設計/Python/discord bot')     #固定檔案位置 
 #-----------------------Subroutine--------------------------
-import random   #Goplay 隨機數
-import Package.Build    #QRcode產生器
-import Package.Manga    #漫畫搜尋器
-import Package.Top  #熱門關鍵字
+import random                   #Goplay 隨機數
+import Package.Build        #QRcode產生器
+import Package.Manga     #漫畫搜尋器
+import Package.Top          #熱門關鍵字
 #-----------------------command----------------------------
 @kirito.command()    #停止機器人
 async def stop(ctx):
     exit()
 
 
+@kirito.command()    #help指令
+async def help(ctx):
+    embed=discord.Embed(title="目前可用指令")
+    embed.add_field(name="kirito delete int", value="刪除聊天紀錄", inline=True)
+    embed.add_field(name="kirito 說 str", value="機器人重複對話", inline=False)
+    embed.add_field(name="kirito goplay", value="玩升天電梯及電鰻", inline=False)
+    embed.add_field(name="kirito QRcode imgurl url", value="QRcode產生器", inline=False)
+    embed.add_field(name="kirito 漫畫 編號/隨機/c8763", value="查詢n網漫畫", inline=False)
+    embed.add_field(name="kirito fire int", value="查詢目前熱門話題", inline=False)
+    await ctx.send(embed=embed)
 @kirito.command()    #重複對話
 async def 說(ctx, *, msg):
     await ctx.message.delete()
