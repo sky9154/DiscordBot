@@ -28,8 +28,6 @@ def num(num):
             if resp.status_code == 200:
                 resp = requests.get(self.origin)
                 title = bs(resp.text, 'html.parser').find('h2', class_='title').text
-                page= bs(resp.text, 'html.parser').find('a', class_='tag').text
-                print(page)
                 print("號碼：" + self.name)
                 print("連線成功")
                 return True,title
