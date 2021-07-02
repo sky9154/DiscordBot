@@ -11,6 +11,7 @@ os.chdir(r'D:/雜物/程式設計/Python/discord bot')     #固定檔案位置
 import random                   #Goplay 隨機數
 import Package.Build        #QRcode產生器
 import Package.Manga     #漫畫搜尋器
+import Package.Video       #影片搜尋器
 import Package.Top          #熱門關鍵字
 #-----------------------command----------------------------
 @kirito.command()    #停止機器人
@@ -20,14 +21,17 @@ async def stop(ctx):
 
 @kirito.command()    #help指令
 async def help(ctx):
-    embed=discord.Embed(title="目前可用指令")
-    embed.add_field(name="kirito delete int", value="刪除聊天紀錄", inline=True)
-    embed.add_field(name="kirito 說 str", value="機器人重複對話", inline=False)
+    embed=discord.Embed(title="目前可用指令",color=discord.Color.blue())
+    embed.add_field(name="kirito delete [int]", value="刪除聊天紀錄", inline=True)
+    embed.add_field(name="kirito 說 [str]", value="機器人重複對話", inline=False)
     embed.add_field(name="kirito goplay", value="玩升天電梯及電鰻", inline=False)
-    embed.add_field(name="kirito QRcode imgurl url", value="QRcode產生器", inline=False)
-    embed.add_field(name="kirito 漫畫 編號/隨機/c8763", value="查詢n網漫畫", inline=False)
-    embed.add_field(name="kirito fire int", value="查詢目前熱門話題", inline=False)
+    embed.add_field(name="kirito QRcode [image_url url]", value="QRcode產生器", inline=False)
+    embed.add_field(name="kirito 漫畫 [編號/隨機/c8763]", value="查詢n網漫畫", inline=False)
+    embed.add_field(name="kirito 影片 [關鍵字 數量]", value="查詢a網影片", inline=False)
+    embed.add_field(name="kirito fire [int]", value="查詢目前熱門話題", inline=False)
     await ctx.send(embed=embed)
+
+
 @kirito.command()    #重複對話
 async def 說(ctx, *, msg):
     await ctx.message.delete()
@@ -67,6 +71,7 @@ async def QRcode(ctx, *, msg):
     os.system("cls")
     print('>>Bot is online<<')
 
+
 @kirito.command()    #漫畫搜尋器
 async def 漫畫(ctx,msg):
     img,name,title=Package.Manga.num(msg)
@@ -81,6 +86,24 @@ async def 漫畫(ctx,msg):
     await ctx.send(embed=embed)
     print('>>Bot is online<<')
 
+
+@kirito.command()    #影片搜尋器
+async def 影片(ctx,*, msg):
+    str=msg
+    alist = str.split()
+    a=alist[0]
+    b=int(alist[1])
+    for i in range(1,b+1):
+        title,url,image=Package.Video.v(a,i)
+        embed=discord.Embed(
+            title=title,
+            url=url,
+            color=discord.Color.blue()
+            )
+        embed.set_author(name="影片搜尋器", url="https://avgle.com/videos", icon_url="https://i.imgur.com/OqtDVJ9.png")
+        embed.set_image(url=image)
+        await ctx.send(embed=embed)
+    
 
 @kirito.command()    #熱門話題
 async def fire(ctx,num: int):
