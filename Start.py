@@ -26,8 +26,8 @@ async def help(ctx):
     embed.add_field(name="kirito 說 [str]", value="機器人重複對話", inline=False)
     embed.add_field(name="kirito goplay", value="玩升天電梯及電鰻", inline=False)
     embed.add_field(name="kirito QRcode [image_url url]", value="QRcode產生器", inline=False)
-    embed.add_field(name="kirito 漫畫 [編號/隨機/c8763]", value="查詢n網漫畫", inline=False)
-    embed.add_field(name="kirito 影片 [關鍵字 數量]", value="查詢a網影片", inline=False)
+    embed.add_field(name="kirito 漫畫 [編號/隨機/c8763]", value="查詢N網漫畫", inline=False)
+    embed.add_field(name="kirito 影片 [關鍵字 數量]", value="查詢A網影片", inline=False)
     embed.add_field(name="kirito fire [int]", value="查詢目前熱門話題", inline=False)
     await ctx.send(embed=embed)
 
