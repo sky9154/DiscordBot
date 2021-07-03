@@ -111,6 +111,9 @@ async def fire(ctx,num: int):
     await ctx.send(top)
 
 
+
+
+
 #-----------------------Run---------------------------------
 @kirito.event
 async def on_ready():
