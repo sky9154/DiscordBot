@@ -13,6 +13,7 @@ import Package.Build        #QRcode產生器
 import Package.Manga     #漫畫搜尋器
 import Package.Video       #影片搜尋器
 import Package.Top          #熱門關鍵字
+import Package.Labatt    #拉霸機
 #-----------------------command----------------------------
 @kirito.command()    #停止機器人
 async def stop(ctx):
@@ -29,6 +30,7 @@ async def help(ctx):
     embed.add_field(name="kirito 漫畫 [編號/隨機/c8763]", value="查詢N網漫畫", inline=False)
     embed.add_field(name="kirito 影片 [關鍵字 數量]", value="查詢A網影片", inline=False)
     embed.add_field(name="kirito fire [int]", value="查詢目前熱門話題", inline=False)
+    embed.add_field(name="kirito 拉", value="玩拉霸機", inline=False)
     await ctx.send(embed=embed)
 
 
@@ -111,9 +113,11 @@ async def fire(ctx,num: int):
     await ctx.send(top)
 
 
-
-
-
+@kirito.command()    #拉霸機
+async def 拉(ctx):
+    if __name__=='__main__':
+        labatt='```\n'+Package.Labatt.start()+'\n```'
+        await ctx.send(labatt)
 #-----------------------Run---------------------------------
 @kirito.event
 async def on_ready():
