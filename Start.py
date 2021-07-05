@@ -118,6 +118,8 @@ async def 拉(ctx):
     if __name__=='__main__':
         labatt='```\n'+Package.Labatt.start()+'\n```'
         await ctx.send(labatt)
+
+
 #-----------------------Run---------------------------------
 @kirito.event
 async def on_ready():

@@ -11,7 +11,7 @@ def start():
         team2[i]=icon[randint(0,2)]
         team3[i]=icon[randint(0,2)]
         output+=emoji.emojize('    '+team1[i]+team2[i]+team3[i]+'\n')
-        flag=0
+    flag=0
     for i in range(3):
         if team1[i]==team2[i]==team3[i]:
             flag=1
