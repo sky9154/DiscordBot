@@ -2,6 +2,7 @@
 import discord
 from discord.ext import commands,tasks
 #-----------------------Main-------------------------------
+import time
 import os
 os.system('cls')
 kirito = commands.Bot(command_prefix='kirito ')       #指令前綴
@@ -31,6 +32,7 @@ async def help(ctx):
     embed.add_field(name="kirito 影片 [關鍵字 數量]", value="查詢A網影片", inline=False)
     embed.add_field(name="kirito fire [int]", value="查詢目前熱門話題", inline=False)
     embed.add_field(name="kirito 拉", value="玩拉霸機", inline=False)
+    embed.add_field(name="kirito BadApple", value="播放BadApple", inline=False)
     await ctx.send(embed=embed)
 
 
@@ -119,7 +121,19 @@ async def 拉(ctx):
         labatt='```\n'+Package.Labatt.start()+'\n```'
         await ctx.send(labatt)
 
-
+@kirito.command()   #BadApple
+async def BadApple(ctx):
+    print(1)
+    f = open('D:/雜物/程式設計/Python/discord bot/demo/txt/1.txt', 'r',encoding='UTF-8')
+    a="```"+f.read()+"```"
+    message = await ctx.send(a)
+    for i in range(2,655):
+        print(i)
+        f = open('D:/雜物/程式設計/Python/discord bot/demo/txt/%s.txt'%(i), 'r',encoding='UTF-8')
+        b="```"+f.read()+"```"
+        await message.edit(content=b)
+    os.system("cls")
+    print('>>Bot is online<<')
 #-----------------------Run---------------------------------
 @kirito.event
 async def on_ready():
