@@ -6,8 +6,7 @@ import time
 import os
 os.system('cls')
 kirito = commands.Bot(command_prefix='kirito ')       #指令前綴
-kirito.remove_command('help')                                     #刪除help指令
-os.chdir(r'D:/雜物/程式設計/Python/discord bot')     #固定檔案位置 
+kirito.remove_command('help')                                     #刪除help
 #-----------------------Subroutine--------------------------
 import random                   #Goplay 隨機數
 import Package.Build        #QRcode產生器
@@ -124,12 +123,12 @@ async def 拉(ctx):
 @kirito.command()   #BadApple
 async def BadApple(ctx):
     print(1)
-    f = open('D:/雜物/程式設計/Python/discord bot/demo/txt/1.txt', 'r',encoding='UTF-8')
+    f = open('./demo/txt/1.txt', 'r',encoding='UTF-8')
     a="```"+f.read()+"```"
     message = await ctx.send(a)
     for i in range(2,655):
         print(i)
-        f = open('D:/雜物/程式設計/Python/discord bot/demo/txt/%s.txt'%(i), 'r',encoding='UTF-8')
+        f = open('./demo/txt/%s.txt'%(i), 'r',encoding='UTF-8')
         b="```"+f.read()+"```"
         await message.edit(content=b)
     os.system("cls")
