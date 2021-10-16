@@ -144,5 +144,5 @@ async def coupons(ctx, msg):
 async def on_ready():
     await kirito.change_presence(activity=discord.Game('Sword Art Online'))
     print(">>Bot is online<<")
-kirito.run("Nzg3MzQ1NDk0NDA1NTQ2MDE0.X9Tmog.Lh_QLfjbNkfhxmCfhMXB9tyJtPU")
+kirito.run("")
 #------------------------------------------------------------
