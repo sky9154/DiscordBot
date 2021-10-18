@@ -180,7 +180,7 @@ async def fire(ctx, num: int):
 @kirito.command()    # 隨機百鬼圖片
 async def Ayame(ctx):
     await ctx.message.delete()
-    await ctx.send("https://ayame-images.herokuapp.com/" + str(random.randrange(100)) + ".png")
+    await ctx.send("https://ayame-images.herokuapp.com/" + str(random.randrange(8763)) + ".png")
 
 @kirito.command()    # 拉霸機
 async def 拉(ctx):
