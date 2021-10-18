@@ -10,7 +10,7 @@ os.system("clear")
 kirito = commands.Bot(command_prefix="kirito ")       # 指令前綴
 kirito.remove_command("help")                         # 刪除help
 #-----------------------Subroutine--------------------------
-import random               # Goplay 隨機數
+import random               # 隨機數
 import Package.Build        # QRcode產生器
 import Package.Manga        # 漫畫搜尋器
 import Package.Video        # 影片搜尋器
@@ -49,6 +49,10 @@ embedObject = [{
 },{
     "name" : "kirito fire [int]",
     "value" : "查詢目前熱門話題",
+    "inline" : False
+},{
+    "name" : "kirito Ayame",
+    "value" : "隨機百鬼圖片",
     "inline" : False
 },{
     "name" : "kirito 拉",
@@ -173,6 +177,10 @@ async def fire(ctx, num: int):
     top = Package.Top.Top(num)
     await ctx.send(top)
 
+@kirito.command()    # 隨機百鬼圖片
+async def Ayame(ctx):
+    await ctx.message.delete()
+    await ctx.send("https://ayame-images.herokuapp.com/" + str(random.randrange(100)) + ".png")
 
 @kirito.command()    # 拉霸機
 async def 拉(ctx):
