@@ -1,5 +1,6 @@
 #-----------------------DiscordBot--------------------------
 import discord
+from discord import embeds
 from discord.ext import commands,tasks
 #-----------------------Main--------------------------------
 import time
@@ -21,19 +22,61 @@ import Package.Coupons      # 加碼卷查詢
 async def stop(ctx):
     exit()
 
+embedObject = [{
+    "name" : "kirito delete [int]",
+    "value" : "刪除聊天紀錄",
+    "inline" : True
+},{
+    "name" : "kirito 說 [str]",
+    "value" : "機器人重複對話",
+    "inline" : False
+},{
+    "name" : "kirito goplay",
+    "value" : "玩升天電梯及電鰻",
+    "inline" : False
+},{
+    "name" : "kirito QRcode [圖片連結 QRcode 連結 圖片類型]",
+    "value" : "QRcode 產生器",
+    "inline" : False
+},{
+    "name" : "kirito 漫畫 [編號/隨機/c8763]",
+    "value" : "查詢 N 網漫畫",
+    "inline" : False
+},{
+    "name" : "kirito 影片 [關鍵字 數量]",
+    "value" : "查詢 A 網影片",
+    "inline" : False
+},{
+    "name" : "kirito fire [int]",
+    "value" : "查詢目前熱門話題",
+    "inline" : False
+},{
+    "name" : "kirito 拉",
+    "value" : "玩拉霸機",
+    "inline" : False
+},{
+    "name" : "kirito BadApple",
+    "value" : "播放 BadApple",
+    "inline" : False
+},{
+    "name" : "kirito 拉",
+    "value" : "玩拉霸機",
+    "inline" : False
+},{
+    "name" : "kirito coupons [身分證後三碼]",
+    "value" : "加碼卷查詢",
+    "inline" : False
+}]
 
 @kirito.command()    # help 指令
 async def help(ctx):
-    embed=discord.Embed(title = "目前可用指令",color = discord.Color.blue())
-    embed.add_field(name = "kirito delete [int]", value = "刪除聊天紀錄", inline = True)
-    embed.add_field(name = "kirito 說 [str]", value = "機器人重複對話", inline = False)
-    embed.add_field(name = "kirito goplay", value = "玩升天電梯及電鰻", inline = False)
-    embed.add_field(name = "kirito QRcode [image_url url]", value="QRcode產生器", inline = False)
-    embed.add_field(name = "kirito 漫畫 [編號/隨機/c8763]", value="查詢N網漫畫", inline = False)
-    embed.add_field(name = "kirito 影片 [關鍵字 數量]", value = "查詢A網影片", inline = False)
-    embed.add_field(name = "kirito fire [int]", value = "查詢目前熱門話題", inline = False)
-    embed.add_field(name = "kirito 拉", value = "玩拉霸機", inline = False)
-    embed.add_field(name = "kirito BadApple", value = "播放BadApple", inline = False)
+    embed = discord.Embed(title = "目前可用指令",color = discord.Color.blue())
+    for i in range(len(embedObject)):
+        embed.add_field(
+            name = embedObject[i]["name"], 
+            value = embedObject[i]["value"], 
+            inline = embedObject[i]["inline"]
+        )
     await ctx.send(embed = embed)
 
 
@@ -60,20 +103,26 @@ async def goplay(ctx):
 @kirito.command()    # QRcode 產生器
 async def QRcode(ctx, *, msg):
     await ctx.message.delete()
-    str=msg
+    str = msg
     alist = str.split()
-    a = alist[0]
-    b = alist[1]
-    Package.Build.QRcode(a, b)
-    pic = discord.File("./demo/QRcode.png", filename = "QRcode.png")
+    img = alist[0]
+    url = alist[1]
+    fileType = alist[2]
+    Package.Build.QRcode(img, url, fileType)
+    if fileType == "GIF" or fileType == "gif":
+        name = "QRcode.gif"
+    else:
+        name = "QRcode.png"
+    pic = discord.File(name, filename = name)
     embed=discord.Embed(
-        title = "**網址**: "+ b,
-        url = a,
+        title = "**網址**: "+ url,
+        url = img,
         color = discord.Color.blue()
     )
-    embed.set_author(name="QRcode產生器", icon_url = "https://i.imgur.com/diIPW3p.gif")
-    embed.set_image(url = "attachment://QRcode.png")
+    embed.set_author(name="QRcode產生器", icon_url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdkaq1MYb6Bsr4zO2s4xTw77sdhCrAL8UsRA&usqp=CAU")
+    embed.set_image(url = "attachment://" + name)
     await ctx.send(embed = embed, file = pic)
+    os.remove(name)
     os.system("clear")
     print(">>Bot is online<<")
 
