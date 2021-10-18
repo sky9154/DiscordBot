@@ -1,20 +1,25 @@
 from MyQR import myqr
 import requests
-kirito = myqr
-def QRcode(img,url):
-    imgfolder='D:/雜物/程式設計/Python/discord bot/demo'
-    imageURL=img
-    img_data = requests.get(imageURL).content
-    with open('%s/%s.png' % (imgfolder, 'QRcodeIMG'), 'wb') as f:
-        f.write(img_data)
+import os
+def QRcode(img, url, fileType):
+    kirito = myqr
+    if "https" in img or "http" in img:   # 使用in運算子檢查
+        imgURL = img
+        img_data = requests.get(imgURL).content
+        if fileType == "GIF" or fileType == "gif":
+            img = "./picData.gif"
+            name = "QRcode.gif"
+        else:
+            img = "./picData.png"
+            name = "QRcode.png"
+        with open(img, "wb") as f:
+            f.write(img_data)
+        f.close()
     version, level, qr_name = kirito.run(
-        words=url,                                                         # 網址
-        version=1,                                                         # 通關率
-        level='H',                                                         # 調整圖片方位
-        picture='D:/雜物/程式設計/Python/discord bot/demo/QRcodeIMG.png',   # 設定背景
-        colorized=True,                                                    # 是否為彩色
-        contrast=2.0,                                                      # 對比
-        brightness=1.0,                                                    # 亮度
-        save_name='QRcode.png',                                            # 檔案名稱
-        save_dir="D:/雜物/程式設計/Python/discord bot/demo/"                # 儲存在當前路徑
+        words = url,                  # 網址
+        version = 1,                  # 二維碼的邊長
+        picture = img,                # 二維碼的背景圖片
+        colorized = True,             # 背景圖片是否採用彩色
+        save_name = name    # 檔案名稱
     )
+    os.remove(img)
