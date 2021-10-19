@@ -51,7 +51,7 @@ embedObject = [{
     "value" : "查詢目前熱門話題",
     "inline" : False
 },{
-    "name" : "kirito Ayame",
+    "name" : "kirito Ayame [int]",
     "value" : "隨機百鬼圖片",
     "inline" : False
 },{
@@ -61,10 +61,6 @@ embedObject = [{
 },{
     "name" : "kirito BadApple",
     "value" : "播放 BadApple",
-    "inline" : False
-},{
-    "name" : "kirito 拉",
-    "value" : "玩拉霸機",
     "inline" : False
 },{
     "name" : "kirito coupons [身分證後三碼]",
@@ -173,18 +169,21 @@ async def 影片(ctx, *, msg):
     
 
 @kirito.command()    # 熱門話題
-async def fire(ctx, num: int):
+async def fire(ctx, num : int):
     top = Package.Top.Top(num)
     await ctx.send(top)
 
 @kirito.command()    # 隨機百鬼圖片
-async def Ayame(ctx):
+async def Ayame(ctx, num : int):
     await ctx.message.delete()
-    await ctx.send("https://ayame-images.herokuapp.com/" + str(random.randrange(8763)) + ".png")
+    i = 0
+    while i < num:
+        await ctx.send("https://ayame-images.herokuapp.com/" + str(random.randrange(8763)) + ".png")
+        i += 1
 
 @kirito.command()    # 拉霸機
 async def 拉(ctx):
-    labatt="```\n" + Package.Labatt.start() + "\n```"
+    labatt = "```\n" + Package.Labatt.start() + "\n```"
     await ctx.send(labatt)
 
 @kirito.command()   # BadApple
