@@ -6,9 +6,6 @@ from discord.ext import commands,tasks
 import time
 import os
 import json
-os.system("clear")
-kirito = commands.Bot(command_prefix="kirito ")       # 指令前綴
-kirito.remove_command("help")                         # 刪除help
 #-----------------------Subroutine--------------------------
 import random               # 隨機數
 import Package.Build        # QRcode產生器
@@ -17,9 +14,21 @@ import Package.Video        # 影片搜尋器
 import Package.Top          # 熱門關鍵字
 import Package.Labatt       # 拉霸機
 import Package.Coupons      # 加碼卷查詢
+#-----------------------Initialization----------------------
+def claer():    # 清除垃圾訊息   
+    try:
+        os.system("cls")
+    except:
+        os.system("cls")
+
+kirito = commands.Bot(command_prefix="kirito ")       # 指令前綴
+kirito.remove_command("help")                         # 刪除help
+
+claer()
 #-----------------------command-----------------------------
 @kirito.command()    # 停止機器人
 async def stop(ctx):
+    await ctx.send("> 機器人關閉中......")
     exit()
 
 embedObject = [{
@@ -103,16 +112,12 @@ async def goplay(ctx):
 @kirito.command()    # QRcode 產生器
 async def QRcode(ctx, *, msg):
     await ctx.message.delete()
-    str = msg
-    alist = str.split()
+    alist = msg.split()
     img = alist[0]
     url = alist[1]
     fileType = alist[2]
     Package.Build.QRcode(img, url, fileType)
-    if fileType == "GIF" or fileType == "gif":
-        name = "QRcode.gif"
-    else:
-        name = "QRcode.png"
+    name = "QRcode.gif" if fileType == "GIF" or fileType == "gif" else "QRcode.png"
     pic = discord.File(name, filename = name)
     embed=discord.Embed(
         title = "**網址**: "+ url,
@@ -123,14 +128,14 @@ async def QRcode(ctx, *, msg):
     embed.set_image(url = "attachment://" + name)
     await ctx.send(embed = embed, file = pic)
     os.remove(name)
-    os.system("clear")
+    claer()
     print(">>Bot is online<<")
 
 
 @kirito.command()    # 漫畫搜尋器
 async def 漫畫(ctx, msg):
-    img,name,title=Package.Manga.num(msg)
-    os.system("cls")
+    img, name, title = Package.Manga.num(msg)
+    claer()
     embed=discord.Embed(
         title = title,
         url = "https://nhentai.net/g/"+name+"/1/",
@@ -174,19 +179,27 @@ async def fire(ctx, num : int):
     await ctx.send(top)
 
 @kirito.command()    # 隨機百鬼圖片
-async def Ayame(ctx, num : int):
-    await ctx.message.delete()
-    i = 0
-    while i < num:
-        await ctx.send("https://ayame-images.herokuapp.com/" + str(random.randrange(8763)) + ".png")
-        i += 1
+async def Ayame(ctx, msg):
+    try:
+        msg = int(msg)
+        if msg > 10:
+            await ctx.send("> 上限為 10 張圖片，將目前張數限制為 10 張，百鬼看太多會變低能，懂嗎！！！")
+            msg = 10
+        await ctx.message.delete()
+        i = 0
+        while i < msg:
+            await ctx.send("https://ayame-images.herokuapp.com/" + str(random.randrange(8763)) + ".png")
+            i += 1
+    except:
+        await ctx.send("> 請輸入整數")
+    
 
 @kirito.command()    # 拉霸機
 async def 拉(ctx):
     labatt = "```\n" + Package.Labatt.start() + "\n```"
     await ctx.send(labatt)
 
-@kirito.command()   # BadApple
+@kirito.command()    # BadApple
 async def BadApple(ctx):
     print(1)
     f = open("./demo/txt/1.txt", "r", encoding = "UTF-8")
@@ -197,10 +210,10 @@ async def BadApple(ctx):
         f = open("./demo/txt/%s.txt"%(i), "r", encoding = "UTF-8")
         b = "```"+ f.read() + "```"
         await message.edit(content = b)
-    os.system("clear")
+    claer()
     print('>>Bot is online<<')
 
-@kirito.command()   # 加碼卷查詢
+@kirito.command()    # 加碼卷查詢
 async def coupons(ctx, msg):
     await ctx.send(Package.Coupons.check(msg))
 
