@@ -15,9 +15,9 @@ def start():
     for i in range(3):
         if team1[i]==team2[i]==team3[i]:
             flag+=1
-    if team1[0]==team1[1]==team1[2]:
+    if team1[0] == team1[1] == team1[2]:
         flag+=1
-    if team2[0]==team2[1]==team2[2]:
+    if team2[0] == team2[1]==team2[2]:
         flag+=1
     if team3[0]==team3[1]==team3[2]:
         flag+=1
