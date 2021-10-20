@@ -3,12 +3,11 @@ import discord
 from discord import embeds
 from discord.ext import commands,tasks
 #-----------------------Main--------------------------------
-import time
 import os
 import json
 #-----------------------Subroutine--------------------------
 import random               # 隨機數
-import Package.Build        # QRcode產生器
+import Package.QRcode        # QRcode產生器
 import Package.Manga        # 漫畫搜尋器
 import Package.Video        # 影片搜尋器
 import Package.Top          # 熱門關鍵字
@@ -16,9 +15,7 @@ import Package.Labatt       # 拉霸機
 import Package.Coupons      # 加碼卷查詢
 #-----------------------Initialization----------------------
 def claer():    # 清除垃圾訊息   
-    try:
-        os.system("clear")
-    except:
+    if os.system("clear") is 1:
         os.system("cls")
 
 kirito = commands.Bot(command_prefix="kirito ")       # 指令前綴
@@ -28,54 +25,12 @@ claer()
 #-----------------------command-----------------------------
 @kirito.command()    # 停止機器人
 async def stop(ctx):
-    await ctx.send("> 機器人關閉中......")
+    await ctx.send("> 機器人停止中......")
     exit()
 
-embedObject = [{
-    "name" : "kirito delete [int]",
-    "value" : "刪除聊天紀錄",
-    "inline" : True
-},{
-    "name" : "kirito 說 [str]",
-    "value" : "機器人重複對話",
-    "inline" : False
-},{
-    "name" : "kirito goplay",
-    "value" : "玩升天電梯及電鰻",
-    "inline" : False
-},{
-    "name" : "kirito QRcode [圖片連結 QRcode 連結 圖片類型]",
-    "value" : "QRcode 產生器",
-    "inline" : False
-},{
-    "name" : "kirito 漫畫 [編號/隨機/c8763]",
-    "value" : "查詢 N 網漫畫",
-    "inline" : False
-},{
-    "name" : "kirito 影片 [關鍵字 數量]",
-    "value" : "查詢 A 網影片",
-    "inline" : False
-},{
-    "name" : "kirito fire [int]",
-    "value" : "查詢目前熱門話題",
-    "inline" : False
-},{
-    "name" : "kirito Ayame [int]",
-    "value" : "隨機百鬼圖片",
-    "inline" : False
-},{
-    "name" : "kirito 拉",
-    "value" : "玩拉霸機",
-    "inline" : False
-},{
-    "name" : "kirito BadApple",
-    "value" : "播放 BadApple",
-    "inline" : False
-},{
-    "name" : "kirito coupons [身分證後三碼]",
-    "value" : "加碼卷查詢",
-    "inline" : False
-}]
+file = r"./asset/json/helpObject.json"    # help embed 物件
+with open(file, encoding = "UTF-8") as f:
+    embedObject = json.load(f)
 
 @kirito.command()    # help 指令
 async def help(ctx):
@@ -95,19 +50,18 @@ async def 說(ctx, *, msg):
     await ctx.send(msg)
 
 
-@kirito.command()    # 刪除訊息
+@kirito.command()    # 刪除聊天紀錄
 async def delete(ctx, num: int):
     await ctx.channel.purge(limit = num + 1)
 
 
 @kirito.command()    # 升天電梯及電鰻
 async def goplay(ctx):
-    num=random.randint(1, 2)
-    if(num%2 == 0):
+    num = random.randint(1, 2)
+    if(num %2 == 0):
         await ctx.send("升天電梯")
     else:
         await ctx.send("電鰻")
-
 
 @kirito.command()    # QRcode 產生器
 async def QRcode(ctx, *, msg):
@@ -116,7 +70,7 @@ async def QRcode(ctx, *, msg):
     img = alist[0]
     url = alist[1]
     fileType = alist[2]
-    Package.Build.QRcode(img, url, fileType)
+    Package.QRcode.build(img, url, fileType)
     name = "QRcode.gif" if fileType == "GIF" or fileType == "gif" else "QRcode.png"
     pic = discord.File(name, filename = name)
     embed=discord.Embed(
@@ -174,9 +128,19 @@ async def 影片(ctx, *, msg):
     
 
 @kirito.command()    # 熱門話題
-async def fire(ctx, num : int):
-    top = Package.Top.Top(num)
-    await ctx.send(top)
+async def fire(ctx, msg):
+    while True:
+        try:
+            msg = int(msg)
+            if msg > 10:
+                await ctx.send("> 請輸入 10 以下的整數")
+                break
+            else:
+                await ctx.send(Package.Top.Top(msg))
+                break
+        except:
+            await ctx.send("> 請輸入整數")
+            break
 
 @kirito.command()    # 隨機百鬼圖片
 async def Ayame(ctx, msg):
@@ -202,12 +166,12 @@ async def 拉(ctx):
 @kirito.command()    # BadApple
 async def BadApple(ctx):
     print(1)
-    f = open("./demo/txt/1.txt", "r", encoding = "UTF-8")
+    f = open("./asset/txt/1.txt", "r", encoding = "UTF-8")
     a = "```" + f.read() + "```"
     message = await ctx.send(a)
     for i in range(2, 655):
         print(i)
-        f = open("./demo/txt/%s.txt"%(i), "r", encoding = "UTF-8")
+        f = open("./asset/txt/%s.txt"%(i), "r", encoding = "UTF-8")
         b = "```"+ f.read() + "```"
         await message.edit(content = b)
     claer()
