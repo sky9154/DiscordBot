@@ -17,7 +17,7 @@ import Package.Coupons      # 加碼卷查詢
 #-----------------------Initialization----------------------
 def claer():    # 清除垃圾訊息   
     try:
-        os.system("cls")
+        os.system("clear")
     except:
         os.system("cls")
 
