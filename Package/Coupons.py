@@ -58,7 +58,7 @@ def check(id):
 
   msg = "身分證後三碼：" + str(id) + "\n"
   
-  for week in range(1, 4):
+  for week in range(1, 5):
     msg += "第 {} 波：\n".format(week)
     weekKey += str(week)
     for i in range(len(coupons)):
