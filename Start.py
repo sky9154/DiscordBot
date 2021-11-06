@@ -7,10 +7,11 @@ import os
 import json
 #-----------------------Subroutine--------------------------
 import random               # 隨機數
-import Package.QRcode        # QRcode產生器
+import Package.QRcode       # QRcode產生器
 import Package.Manga        # 漫畫搜尋器
 import Package.Video        # 影片搜尋器
-import Package.Top          # 熱門關鍵字
+import Package.Top          # 熱門話題
+import Package.Notation     # 中序轉前後序
 import Package.Labatt       # 拉霸機
 import Package.Coupons      # 加碼卷查詢
 #-----------------------Initialization----------------------
@@ -104,6 +105,10 @@ async def 漫畫(ctx, msg):
     await ctx.send(embed = embed)
     print('>>Bot is online<<')
 
+@kirito.command()    # 中序轉前後序
+async def notation(ctx, msg):
+    notation = "```\n" + Package.Notation.notation(msg) + "\n```"
+    await ctx.send(notation)
 
 @kirito.command()    # 影片搜尋器
 async def 影片(ctx, *, msg):

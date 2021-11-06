@@ -28,6 +28,10 @@
         "value" : "查詢目前熱門話題",
         "inline" : "False"
     }, {
+        "name" : "kirito notation [Expression]",
+        "value" : "中序轉前後序",
+        "inline" : "False"
+    }, {
         "name" : "kirito Ayame [int]",
         "value" : "隨機百鬼圖片",
         "inline" : "False"
