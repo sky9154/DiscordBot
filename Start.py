@@ -107,7 +107,7 @@ async def 漫畫(ctx, msg):
 
 @kirito.command()    # 中序轉前後序
 async def notation(ctx, msg):
-    notation = "```\n" + Package.Notation.notation(msg) + "\n```"
+    notation = "```\中序：\n" + msg + "\n" + Package.Notation.notation(msg) + "\n```"
     await ctx.send(notation)
 
 @kirito.command()    # 影片搜尋器
