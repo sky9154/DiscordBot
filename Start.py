@@ -187,16 +187,16 @@ async def coupons(ctx, msg):
     await ctx.send(Package.Coupons.check(msg))
 
 #-----------------------TOKEN-------------------------------
-f = open("./TOKEN/token.json") 
-data = json.load(f) 
-token = ""
-for i in data["TOKEN"]: 
-    token += i
+# f = open("./TOKEN/token.json") 
+# data = json.load(f) 
+# token = ""
+# for i in data["TOKEN"]: 
+#     token += i
 #-----------------------Run---------------------------------
 if __name__ == "__main__":
     @kirito.event
     async def on_ready():
         await kirito.change_presence(activity=discord.Game("Sword Art Online"))
         print(">>Bot is online<<")
-    kirito.run(token)
+    kirito.run(DISCODE_TOKEN)
 #------------------------------------------------------------
