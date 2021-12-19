@@ -1,0 +1,13 @@
+{
+    "name": "discordbot",
+    "description": "DiscordBot",
+    "version": "0.0.0",
+    "main": "Start.py",
+    "scripts": {
+      "start": "python Start.py"
+    },
+    "dependencies": {
+      "discord.js": "11.1.0",
+      "request": "2.81.0"
+    }
+} 
